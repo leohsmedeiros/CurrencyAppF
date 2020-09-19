@@ -1,9 +1,7 @@
-import 'dart:async';
-import 'dart:convert';
+import 'package:currency_app/services/currency_service.dart';
 import 'package:currency_app/widgets/text_field_generic.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:http/http.dart' as http;
 
 class CurrencyConverter extends StatefulWidget {
   @override
@@ -15,22 +13,28 @@ class _CurrencyConverterState extends State<CurrencyConverter> {
   String fromCurrency = "BRL";
   String toCurrency = "USD";
   String result;
-  List<String> currencies = [];
+  var init;
+
+  final service = CurrencyService();
 
   @override
   void initState() {
     super.initState();
-    _loadCurrencies();
-
+    service.loadCurrencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration(milliseconds: 400), (){
+      setState(() {
+
+      });
+    });
     return Scaffold(
       appBar: AppBar(
         title: Text("Currency Converter"),
       ),
-      body: currencies == null
+      body: service.currencies == null
           ? Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.all(8.0),
@@ -74,7 +78,7 @@ class _CurrencyConverterState extends State<CurrencyConverter> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(result != null ? result : "Informe um Valor", style: TextStyle(fontSize: 28.0, color: Colors.amber)),
+                      Text(result != null ? result : "Informe um valor", style: TextStyle(fontSize: 28.0, color: Colors.amber)),
                       Expanded(child: Container()),
                       _buildDropDownButton(toCurrency),
                       SizedBox(
@@ -85,56 +89,41 @@ class _CurrencyConverterState extends State<CurrencyConverter> {
                   SizedBox(
                     height: 32.0,
                   ),
-                  FlatButton(
-                    height: 40.0,
-                    color: Colors.amberAccent.withOpacity(0.8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Realizar Conversão',
-                          style: TextStyle(fontSize: 18.0, color: Colors.white, fontWeight: FontWeight.bold),
+                  GestureDetector(
+                    onTap: () async {
+                      result = await service.doConversion(text: fromTextController.text, from: fromCurrency, to: toCurrency);
+                      setState(() {});
+                    },
+                    child: SizedBox(
+                      height: 40.0,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.amber,
+                        elevation: 5.0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Realizar Conversão',
+                              style: TextStyle(fontSize: 18.0, color: Colors.white, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              width: 12.0,
+                            ),
+                            Icon(
+                              FontAwesomeIcons.bitcoin,
+                              size: 22.0,
+                              color: Colors.white,
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          width: 12.0,
-                        ),
-                        Icon(
-                          FontAwesomeIcons.bitcoin,
-                          size: 22.0,
-                          color: Colors.white,
-                        ),
-                      ],
+                      ),
                     ),
-                    onPressed: _doConversion,
                   ),
                 ],
               ),
             ),
     );
-  }
-
-  Future<String> _loadCurrencies() async {
-    String uri = "https://api.exchangeratesapi.io/latest";
-    var response = await http
-        .get(Uri.encodeFull(uri), headers: {"Accept": "application/json"});
-    var responseBody = json.decode(response.body);
-    Map curMap = responseBody['rates'];
-    currencies = curMap.keys.toList();
-    setState(() {});
-    print(currencies);
-    return "Success";
-  }
-
-  Future<String> _doConversion() async {
-    String uri = "https://api.exchangeratesapi.io/latest?base=$fromCurrency&symbols=$toCurrency";
-    var response = await http
-        .get(Uri.encodeFull(uri), headers: {"Accept": "application/json"});
-    var responseBody = json.decode(response.body);
-    setState(() {
-      result = (double.parse(fromTextController.text) * (responseBody["rates"][toCurrency])).toString();
-    });
-    print(result);
-    return "Success";
   }
 
   Widget _buildDropDownButton(String currencyCategory) {
@@ -143,7 +132,7 @@ class _CurrencyConverterState extends State<CurrencyConverter> {
       underline: Container(),
       icon: Icon(Icons.arrow_downward),
       iconEnabledColor: Colors.white,
-      items: currencies
+      items: service.currencies
           .map((String value) => DropdownMenuItem(
                 value: value,
                 child: Text(value),

@@ -23,8 +23,8 @@ class TextFieldGeneric extends StatelessWidget {
         decoration: InputDecoration(
             labelText: label,
             labelStyle: TextStyle(color: Colors.amber),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0), borderSide: BorderSide(color: Colors.amberAccent)),
-            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0), borderSide: BorderSide(color: Colors.amberAccent)),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.amberAccent)),
+            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.amberAccent)),
             prefixText: prefix),
         style: TextStyle(color: Colors.amber, fontSize: 25.0),
         onChanged: callbackFunction,
