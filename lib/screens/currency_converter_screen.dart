@@ -1,5 +1,7 @@
+import 'package:currency_app/repository/currency_repository.dart';
 import 'package:currency_app/services/currency_service.dart';
 import 'package:currency_app/widgets/text_field_generic.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -10,10 +12,12 @@ class CurrencyConverter extends StatefulWidget {
 
 class _CurrencyConverterState extends State<CurrencyConverter> {
   final fromTextController = TextEditingController();
+  final repository = CurrencyRepository();
+
   String fromCurrency = "BRL";
   String toCurrency = "USD";
   String result;
-  var init;
+  var offlineDates;
 
   final service = CurrencyService();
 
@@ -25,11 +29,10 @@ class _CurrencyConverterState extends State<CurrencyConverter> {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(milliseconds: 400), (){
-      setState(() {
-
-      });
+    Future.delayed(Duration(milliseconds: 400), () {
+      setState(() {});
     });
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Currency Converter"),
@@ -92,10 +95,12 @@ class _CurrencyConverterState extends State<CurrencyConverter> {
                   GestureDetector(
                     onTap: () async {
                       result = await service.doConversion(text: fromTextController.text, from: fromCurrency, to: toCurrency);
+                      repository.insert(text: fromTextController.text, from: fromCurrency, to: toCurrency);
+                      offlineDates = await repository.query();
                       setState(() {});
                     },
                     child: SizedBox(
-                      height: 40.0,
+                      height: 50.0,
                       child: Material(
                         borderRadius: BorderRadius.circular(10.0),
                         color: Colors.amber,
@@ -120,8 +125,50 @@ class _CurrencyConverterState extends State<CurrencyConverter> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 32.0,),
-                  if(result != null) Text("Conversão Atualizada com Sucesso", style: TextStyle(fontSize: 12.0, color: Colors.amber)),
+                  SizedBox(
+                    height: 32.0,
+                  ),
+                  if (result != null)
+                    Text("Conversão Atualizada com Sucesso".toUpperCase(),
+                        style: TextStyle(fontSize: 12.0, color: Colors.amber, fontWeight: FontWeight.bold)),
+                  if (offlineDates != null)
+                    Expanded(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 16.0,
+                          ),
+                          Text(
+                            'Segue abaixo os Dados do banco de dados local, para uso Offline:',
+                            style: TextStyle(fontSize: 12.0, color: Colors.red),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: offlineDates.length,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              physics: ClampingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Row(
+                                  children: [
+                                    Expanded(child: Text("Nº: " + offlineDates[index]['_id'].toString())),
+                                    Expanded(child: Text("De: " + offlineDates[index]['from_currency'].toString())),
+                                    Expanded(child: Text("Para: " + offlineDates[index]['to_currency'].toString())),
+                                    Expanded(child: Text("Valor: " + offlineDates[index]['value'].toString())),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  else
+                    Container(),
                 ],
               ),
             ),

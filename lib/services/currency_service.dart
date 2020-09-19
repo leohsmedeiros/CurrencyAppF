@@ -21,7 +21,7 @@ class CurrencyService {
     var response = await http.get(Uri.encodeFull(uri), headers: {"Accept": "application/json"});
     var responseBody = json.decode(response.body);
     var result;
-      if (text != "")  result = (double.parse(text) * (responseBody["rates"][to])).toStringAsFixed(8);
+      if (text != "")  result = (double.parse(text) * (responseBody["rates"][to])).toStringAsFixed(5);
       if (text == "") text = 0.toString();
     print(result);
     return result;
