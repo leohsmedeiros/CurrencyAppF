@@ -13,6 +13,6 @@ Para testar e modificar basta seguir o seguinte tutorial: https://www.treinaweb.
   <li> 1 - Nele há a opção de seguir conforme o seu Sistema Operacional(SO) </li>
   <li> 2 - Te ensinará as variáveis de ambiente para o SO reconhecer o seu <b>Editor e Emulador</b>. </li>
   <li> 3 - E por fim te ensinará também a usar um dispositivo virtual para testar a aplicação. </li>
-</ul>.
+</ul>
 
 Grato!
