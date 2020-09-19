@@ -1,16 +1,18 @@
-# currency_app
+# Conversor de Moedas
 
-A Currency Application Challenge.
+Esse aplicativo foi feito para um desafio específico, somente para fins de aprendizado.
 
-## Getting Started
+## Pode ser utilizado por quaisquer pessoas que queiram consumir uma API de conversão de moedas
 
-This project is a starting point for a Flutter application.
+Para uso do mesmo, você precisará de um editor de código com plugin do Flutter instalado. 
+Recomendo: Android Studio Ou Visual Studio Code.
 
-A few resources to get you started if this is your first Flutter project:
+Para testar e modificar basta seguir o seguinte tutorial: https://www.treinaweb.com.br/blog/configurando-ambiente-de-desenvolvimento-flutter/#:~:text=2%20%E2%80%93%20Abra%20o%20Gerenciador%20de,do%20plugin%20do%20Dart%20tamb%C3%A9m.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+<ul> 
+  <li> 1 - Nele há a opção de seguir conforme o seu Sistema Operacional(SO) </li>
+  <li> 2 - Te ensinará as variáveis de ambiente para o SO reconhecer o seu <b>Editor e Emulador</b>. </li>
+  <li> 3 - E por fim te ensinará também a usar um dispositivo virtual para testar a aplicação. </li>
+</ul>.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Grato!
