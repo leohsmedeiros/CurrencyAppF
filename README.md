@@ -15,4 +15,11 @@ Para testar e modificar basta seguir o seguinte tutorial: https://www.treinaweb.
   <li> 3 - E por fim te ensinará também a usar um dispositivo virtual para testar a aplicação. </li>
 </ul>
 
+<p>
+  Segue abaixo fotos do applicativo.
+</p>
+
+![currency_app](https://github.com/wladmyralmeida/CurrencyAppF/blob/master/lib/screenshots/CurrencyApp.jpeg)
+![offline_data](https://github.com/wladmyralmeida/CurrencyAppF/blob/master/lib/screenshots/OfflineData.jpeg)
+
 Grato!
