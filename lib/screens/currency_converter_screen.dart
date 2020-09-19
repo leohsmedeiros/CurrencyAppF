@@ -120,6 +120,8 @@ class _CurrencyConverterState extends State<CurrencyConverter> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 32.0,),
+                  if(result != null) Text("Conversão Atualizada com Sucesso", style: TextStyle(fontSize: 12.0, color: Colors.amber)),
                 ],
               ),
             ),
