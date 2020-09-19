@@ -35,7 +35,7 @@ class _CurrencyConverterState extends State<CurrencyConverter> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Currency Converter"),
+        title: Text("Conversor de Moedas"),
       ),
       body: service.currencies == null
           ? Center(child: CircularProgressIndicator())
